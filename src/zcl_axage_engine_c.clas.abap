@@ -271,9 +271,11 @@ CLASS zcl_axage_engine_c IMPLEMENTATION.
                 result->addtab( actor->speak( ) ).
                 "Set battle details
                 ch_o_abapaxage_custom->set_battle(
+                  im_v_battle   = ABAP_true
                   im_t_mchoices = actor->get_mchoice( )
                   im_v_answer   = actor->get_answer( )
                   im_v_question = actor->get_question( )
+                  im_v_image    = actor->get_image( )
                 ).
               ELSE.
                 result->add( |You cannot ask { cmd2 }| ).
@@ -281,6 +283,26 @@ CLASS zcl_axage_engine_c IMPLEMENTATION.
             ENDLOOP.
           ENDIF.
         ENDIF.
+
+      WHEN 'CHOICE1' OR 'CHOICE2' OR 'CHOICE3' OR 'CHOICE4'.
+        ch_o_abapaxage_custom->get_battle( IMPORTING ex_t_mchoices = DATA(lt_mchoices)
+                                                     ex_v_answer = DATA(lv_answer) ).
+        DATA(lv_number) = cmd1+6(1).
+        READ TABLE lt_mchoices INTO DATA(lv_choice) INDEX lv_number.
+        "Check answer
+        IF lv_answer = lv_choice.
+          "Correct. End battle.
+          ch_o_abapaxage_custom->set_battle(
+            im_v_battle   = ABAP_false ).
+          result->add( 'You won the challenge!' ).
+
+        ELSE.
+          "Wrong. Start the game over
+          "Correct. End battle.
+          ch_o_abapaxage_custom->set_battle(
+            im_v_gameover   = ABAP_true ).
+        ENDIF.
+
 
       WHEN OTHERS.
         result->add( 'You cannot do that' ).

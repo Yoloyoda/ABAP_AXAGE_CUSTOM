@@ -28,6 +28,9 @@ CLASS zcl_axage_actor_c DEFINITION INHERITING FROM zcl_axage_thing_c
     METHODS set_answer
       IMPORTING
         answer TYPE string.
+    METHODS set_image
+      IMPORTING
+        image TYPE string.
     METHODS get_mchoice
       RETURNING
         VALUE(mchoice) TYPE string_table.
@@ -37,6 +40,9 @@ CLASS zcl_axage_actor_c DEFINITION INHERITING FROM zcl_axage_thing_c
     METHODS get_answer
       RETURNING
         VALUE(answer) TYPE string.
+    METHODS get_image
+      RETURNING
+        VALUE(image) TYPE string.
     METHODS add_sentences
       IMPORTING
         sentences TYPE string_table.
@@ -46,6 +52,7 @@ CLASS zcl_axage_actor_c DEFINITION INHERITING FROM zcl_axage_thing_c
     DATA my_mchoices  TYPE string_table.
     DATA my_answer    TYPE string.
     DATA my_question  TYPE string.
+    DATA my_image  TYPE string.
 ENDCLASS.
 
 
@@ -90,6 +97,10 @@ CLASS zcl_axage_actor_c IMPLEMENTATION.
     my_question = question.
   ENDMETHOD.
 
+  METHOD set_image.
+    my_image = image.
+  ENDMETHOD.
+
   METHOD get_mchoice.
     mchoice = my_mchoices.
   ENDMETHOD.
@@ -101,4 +112,9 @@ CLASS zcl_axage_actor_c IMPLEMENTATION.
   METHOD get_question.
     question = my_question.
   ENDMETHOD.
+
+  METHOD get_image.
+    image = my_image.
+  ENDMETHOD.
+
 ENDCLASS.
